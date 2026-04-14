@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .radio-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 100px;
+            background: #fafafa;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        table {
+        border-collapse: collapse; /* Collapses borders into a single line */
+        width: 100%;
+        }
+        th, td {
+            border: 1px solid #000000; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+        }
+        .td1 {
+            border: 1px solid #ffffff; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+            background-color: aqua;
+        }
+        th {
+            background-color: #8ce2f4; /* Gray background for headers */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <table>
+
+            <tr>
+                <td class="td1"><a href="{{ url_for('search') }}"><button type="button" class="buttonSearch">search</button></a></td>
+                <td class="td1"><a href="{{ url_for('bill') }}"><button type="button" class="buttonSearch">Bill</button></a></td>
+                <td class="td1"><a href="{{ url_for('item') }}"><button type="button" class="buttonSearch">Add</button></a></td>
+                <td class="td1"><a href="{{ url_for('edit') }}"><button type="button" class="buttonSearch">Edit</button></a></td>
+            </tr>
+    </table>
+    <h1>STOCK</h1>
+
+
+     <table>
+            <form method="POST" action="{{ url_for('stockfilter') }}">
+            <tr>
+                <td>
+                    <select id="category" name="item_category">
+                        <option value="">Select category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Other">Other</option>
+                    </select></td>
+                <td>
+                    <select id="category" name="item_price">
+                        <option value="">Select price</option>
+                        <option value="highp">Higher Price</option>
+                        <option value="Lowp">Lower Price</option>
+                    </select></td></td>
+                <td>
+                    <select id="category" name="item_quantity">
+                        <option value="">Select Quantity</option>
+                        <option value="highq">Higher Quantity</option>
+                        <option value="Lowq">Lower Quantity</option>
+                    </select></td></td>
+                <td><button type="Submit" class="Submit">FILTER</button></td>
+                <td><a href="{{ url_for('stock') }}"><button type="button" style="background-color: red;">RESET</button></a></td>
+            </tr>
+            </form>
+    </table>
+
+
+    
+    <table>
+
+            <tr>
+                <th><p>ID</p></td>
+                <th><p>NAME</p></td>
+                <th><p>CATEGORY</p></td>
+                <th><p>PRICE</p></td>
+                <th><p>QUANTITY</p></td>
+                <th><p>STATUS</p></td>
+            </tr>
+            {% if submitted == False %}
+                <p style="color: red;text-align: center;"> Invalid choice for filterization </p>
+            {% else %}
+            {% for item in posts %}
+            <tr>
+                <td><p>{{item.id}}</p></td>
+                <td><p>{{item.name}}</p></td>
+                <td><p>{{item.category}}</p></td>
+                <td><p>{{item.price}}</p></td>
+                <td><p>{{item.quantity}}</p></td>
+                <td><p>{{item.status}}</p></td>
+            </tr> 
+            {% endfor %}
+            {% endif %}
+    </table>
+
+    
+</div>
+
+
+</body>
+</html>

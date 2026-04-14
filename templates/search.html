@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .radio-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 100px;
+            background: #fafafa;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        table {
+        border-collapse: collapse; /* Collapses borders into a single line */
+        width: 100%;
+        }
+        th, td {
+            border: 1px solid #000000; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+        }
+        .td1 {
+            border: 1px solid #ffffff; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+            background-color: aqua;
+        }
+        th {
+            background-color: #f2f2f2; /* Gray background for headers */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <table>
+            <tr>
+                <td class="td1"><a href="{{ url_for('bill') }}"><button type="button" class="buttonSearch">Bill</button></a></td>
+                <td class="td1"><a href="{{ url_for('item') }}"><button type="button" class="buttonSearch">Add</button></a></td>
+                <td class="td1"><a href="{{ url_for('edit') }}"><button type="button" class="buttonSearch">Edit</button></a></td>
+                <td class="td1"><a href="{{ url_for('stock') }}"><button type="button" class="buttonSearch">Stock</button></a></td>
+            </tr>
+    </table>
+    <h1>SEARCH</h1>
+    <form id="searchForm"action="{{ url_for('search') }}" method="POST">
+    <div class="radio-group">
+        <label><input type="radio" name="type" value="id" checked> By ID</label>
+        <label><input type="radio" name="type" value="name"> By Name</label>
+    </div>
+
+    <input type="text" name="name" id="searchValue" placeholder="Enter ID or Name here..." />
+
+    <button type="submit" >Search</button>
+    </form>
+    
+        {% if submitted %}
+        {% if result == None %}
+            <p class="error">Result not found</p>
+        {% else %}
+            <p class="success">Result found</p>
+            <table>
+
+            <tr>
+                <td><p><strong>ID: </strong></p></td>
+                <td><p>{{result.id}}</p></td>
+                <td rowspan="6"> pls provide img</td>
+            </tr>
+            <tr>
+                <td><p><strong>NAME: </strong></p></td>
+                <td><p>{{result.name}}</p></td>
+            </tr>
+            <tr>
+                <td><p><strong>CATEGORY: </strong></p></td>
+                <td><p>{{result.category}}</p></td>
+            </tr>
+            <tr>
+                <td><p><strong>PRICE: </strong></p></td>
+                <td><p>{{result.price}}</p></td>
+            </tr>
+                <td><p><strong>QUANTITY: </strong></p></td>
+                <td><p>{{result.quantity}}</p></td>
+            </tr>
+            </tr>
+                <td><p><strong>STATUS: </strong></p></td>
+                <td><p>{{result.status}}</p></td>
+            </tr>
+            </table>
+        {% endif %}   
+        {% endif %}
+</div>
+
+
+</body>
+</html>

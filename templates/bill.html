@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .nav-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .nav-table td {
+            padding: 10px;
+            text-align: center;
+        }
+        .nav-button {
+            width: 100%;
+            padding: 10px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .nav-button:hover {
+            background: #0055aa;
+        }
+        .radio-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .add-button {
+            width: 20%;
+            padding: 12px;
+            font-size: 18px;
+            background: rgb(175, 244, 105);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .add-button:hover {
+            background: rgb(150, 220, 90);
+        }
+        #stock-table, #bill-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        #stock-table th, #stock-table td, #bill-table th, #bill-table td {
+            border: 1px solid #000000;
+            padding: 8px;
+            text-align: center;
+        }
+        #stock-table th, #bill-table th {
+            background-color: #f2f2f2;
+        }
+        .delete-button {
+            background-color: rgb(240, 69, 69);
+            color: #000000;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: rgb(200, 50, 50);
+        }
+        .clear-button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .clear-button:hover {
+            background: #cc0000;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .customer-form {
+            margin-top: 20px;
+        }
+        .customer-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .customer-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table class="nav-table">
+            <tr>
+                <td><a href="{{ url_for('search') }}" class="nav-button">Search</a></td>
+                <td><a href="{{ url_for('item') }}" class="nav-button">Add Item</a></td>
+                <td><a href="{{ url_for('edit') }}" class="nav-button">Edit</a></td>
+                <td><a href="{{ url_for('stock') }}" class="nav-button">Stock</a></td>
+            </tr>
+        </table>
+
+        <h1>BILLING</h1>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+            <div class="success">{{ success }}</div>
+        {% endif %}
+
+
+        <h4>Provide item details to add for billing</h4>
+        <form action="{{ url_for('bill') }}" method="POST">
+            <div class="radio-group">
+                <label><input type="radio" name="type" value="id" checked> By ID</label>
+                <label><input type="radio" name="type" value="name"> By Name</label>
+                <input type="text" name="name" placeholder="Enter ID or Name here..." required />
+                <label for="quantity">Quantity to Buy *</label>
+                <input type="number" id="quantity" min="1" value="1" required name="item_quantity">
+                <button type="submit" class="add-button">ADD</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>Current Bill Items</h2>
+        {% if cart %}
+            <form action="{{ url_for('clear_cart') }}" method="POST" style="text-align: right;">
+                <button type="submit" class="clear-button" onclick="return confirm('Clear entire cart?')">Clear All</button>
+            </form>
+            <table id="bill-table">
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Delete</th>
+                </tr>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td style="text-transform: uppercase;"><strong>{{ item.name }}</strong></td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.qty }}</td>
+                    <td>{{ item.price * item.qty }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_item', index=loop.index0) }}" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-button" onclick="return confirm('Remove this item?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4" style="background-color: #ebdc7a;">TOTAL AMOUNT : </td>
+                    <td><strong>{{total}}</strong></td>
+                    <td style="background-color: #ebdc7a;"></td>
+                </tr>
+            </table>
+        {% endif %}
+            
+
+        <!-- <div class="customer-form">
+            <h3>Customer Details</h3>
+            <label for="customer_name">Name:</label>
+            <input type="text" id="customer_name" placeholder="Enter customer name">
+            <label for="customer_phone">Phone No.:</label>
+            <input type="text" id="customer_phone" placeholder="Enter phone number">
+            You can extend this with a "Generate Bill" button later, e.g., POST to a new /bill/generate route
+        </div> -->
+    </div>
+</body>
+</html>

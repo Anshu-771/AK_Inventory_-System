@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .radio-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .editdone {
+            width: 20%;
+            font-size: 14px;
+            margin: 12px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 100px;
+            background: #fafafa;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        table {
+        border-collapse: collapse; /* Collapses borders into a single line */
+        width: 100%;
+        }
+        th, td {
+            border: 1px solid #000000; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+        }
+        .td1 {
+            border: 1px solid #ffffff; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+            background-color: aqua;
+        }
+        th {
+            background-color: #f2f2f2; /* Gray background for headers */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <table>
+
+            <tr>
+                <td class="td1"><a href="{{ url_for('search') }}"><button type="button" class="buttonSearch">search</button></a></td>
+                <td class="td1"><a href="{{ url_for('bill') }}"><button type="button" class="buttonSearch">Bill</button></a></td>
+                <td class="td1"><a href="{{ url_for('item') }}"><button type="button" class="buttonSearch">Add</button></a></td>
+                <td class="td1"><a href="{{ url_for('stock') }}"><button type="button" class="buttonSearch">Stock</button></a></td>
+            </tr>
+    </table>
+    <h1>EDIT ITEM</h1>
+    {% if s %}
+    <h4 style="text-align: center;">Enter the ID or NAME of the item that you want to modify</h4>
+    <form action="{{ url_for('edit') }}" method="POST">
+    <div class="radio-group">
+        <label><input type="radio" name="type" value="id" checked> By ID</label>
+        <label><input type="radio" name="type" value="name"> By Name</label>
+    </div>
+
+    <input type="text" name="name" placeholder="Enter ID or Name here..." />
+
+    <button type="submit" >Check</button>
+    </form>
+    {% endif %}
+    {% if submitted %}
+        <h4>ITEM IS:</h4>
+        <table>
+            <tr>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>ID</p></th>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>NAME</p></th>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>CATEGORY</p></th>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>PRICE</p></th>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>QUANTITY</p></th>
+                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>STATUS</p></th>
+            </tr>
+            <tr>
+                <td><p>{{result.id}}</p></td>
+                <td><p>{{result.name}}</p></td>
+                <td><p>{{result.category}}</p></td>
+                <td><p>{{result.price}}</p></td>
+                <td><p>{{result.quantity}}</p></td>
+                <td><p>{{result.status}}</p></td>
+            </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
+        
+        <span>NOTE:<strong style="color: red; font-size: 13px;"> ID can modify by the Admin only</strong></span>
+        <h4>Modify the given detail of ID {{result.id}}</h4>
+        <br>
+        <br>
+        <form action="/edit/{{result.id}}" method="post">
+            
+            
+            <label for="name">Name</label>
+            <input class="editdone" type="text" id="name" name="item_name" required  value="{{result.name}}">
+
+            <!-- <label for="id">ID:</label>
+            <input class="editdone" type="number" id="id" name="item_id" required  value="{{result.id}}"> -->
+
+            <label for="category">Category</label>
+            <select class="editdone" id="category" name="item_category" >
+                <option value="{{result.category}}">{{result.category}}</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Stationery">Stationery</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="price">Price (₹) *</label>
+            <input class="editdone" type="number" id="price" step="0.01" min="0" value="{{result.price}}" required name="item_price">
+            <br>
+            <label for="quantity">Quantity / Stock *</label>
+            <input class="editdone" type="number" id="quantity" min="0" value="{{result.quantity}}" required name="item_quantity">
+
+
+            <label for="status">Status</label>
+            <select class="editdone" id="status" name="item_status">
+                <option value="{{result.status}}">{{result.status}}</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="discontinued">Discontinued</option>
+            </select>
+
+            <br>
+            <br>
+
+            <button type="submit" style="background-color: rgb(61, 196, 61);" >DONE</button>
+        </form>
+    {% endif %}
+    
+</div>
+
+
+    {% if done %}
+    <script>
+    alert("Your changes are commited!!");
+    </script>
+    {% endif %}
+
+
+
+</body>
+</html>

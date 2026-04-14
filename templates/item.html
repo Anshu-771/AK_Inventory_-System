@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Item</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: bold;
+            color: #444;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+       
+        button:hover {
+            background: #0055aa;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 80px;
+            background: #fafafa;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        table {
+        border-collapse: collapse; /* Collapses borders into a single line */
+        width: 100%;
+        }
+        .td1 {
+            border: 1px solid #ffffff; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+            
+        }
+        th, td {
+            border: 1px solid #000000; /* Adds a border to cells */
+            padding: 1px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left */
+            border-radius: 20px;
+        }
+        th {
+            background-color: #f2f2f2; /* Gray background for headers */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" width="100%">
+    <table>
+
+            <tr>
+                <td class="td1"><a href="{{ url_for('search') }}"><button type="button" class="buttonSearch">search</button></a></td>
+                <td class="td1"><a href="{{ url_for('bill') }}"><button type="button" class="buttonSearch">Bill</button></a></td>
+                <td class="td1"><a href="{{ url_for('edit') }}"><button type="button" class="buttonSearch">Edit</button></a></td>
+                <td class="td1"><a href="{{ url_for('stock') }}"><button type="button" class="buttonSearch">Stock</button></a></td>
+            </tr>
+    </table>
+    <h1>ADD NEW ITEM</h1>
+
+    <form id="itemForm" method="post", action="{{ url_for('item') }}">
+        <label for="name">Item Name *</label>
+        <input type="text" id="name" placeholder="e.g. Wireless Mouse" required name="item_name">
+
+        <label for="category">Category</label>
+        <select id="category" name="item_category">
+            <option value="">Select category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Stationery">Stationery</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="price">Price (₹) *</label>
+        <input type="number" id="price" step="0.01" min="0" placeholder="e.g. 799.50" required name="item_price">
+
+        <label for="quantity">Quantity / Stock *</label>
+        <input type="number" id="quantity" min="0" placeholder="e.g. 45" required name="item_quantity">
+
+
+        <label for="status">Status</label>
+        <select id="status" name="item_status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="discontinued">Discontinued</option>
+        </select>
+
+        <button type="submit" >Add Item</button>
+    </form>
+
+    <!-- <div id="result">-->
+        <!-- Result message will appear here -->
+    <!--</div> -->
+
+    {% if submitted %}
+    <script>
+    alert("Your item has been added successfully!");
+    </script>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

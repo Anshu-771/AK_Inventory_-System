@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK Inventory System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: bold;
+            color: #444;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        
+        .buttonBill {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #5498ff;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .buttonADD {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #ff54ff;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .buttonSearch {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #e6c43c;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .buttonEdit {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #ef8686;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .buttonStock {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #b0f96b;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .buttonADD:hover {
+            background: #e048e0;
+        }
+        .buttonBill:hover {
+            background: #4480d4;
+        }
+        .buttonSearch:hover {
+            background: #d4a12c;
+        }
+        .buttonEdit:hover {
+            background: #e06666;
+        }
+        .buttonStock:hover {
+            background: #a0e05b;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="container" width="100%">
+    
+    <h1>AK INVENTORY SYSTEM</h1>
+    <a href="{{ url_for('search') }}"><button type="button" class="buttonSearch">search item</button></a>
+    <a href="{{ url_for('bill') }}"><button type="button" class="buttonBill">Billing item</button></a>
+    <a href="{{ url_for('item') }}"><button type="button" class="buttonADD">Add item</button></a>
+    <a href="{{ url_for('stock') }}"><button type="button" class="buttonStock">Stock Available</button></a>
+    <a href="{{ url_for('edit') }}"><button type="button" class="buttonEdit">Edit item</button></a>
+
+    
+    
+
+
+</div>
+
+</body>
+</html>

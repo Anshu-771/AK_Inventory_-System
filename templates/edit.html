@@ -3,168 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Record</title>
+    <title>AK Inventory - Edit Item</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 36px;
+            border-radius: 44px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
+
         h1 {
             text-align: center;
-            color: #333;
+            color: #1e293b;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, #991b1b, #ef4444);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .radio-group {
-            margin: 20px 0;
-            text-align: center;
-        }
-        input[type="radio"] {
-            margin-right: 10px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            margin: 15px 0;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        .editdone {
-            width: 20%;
-            font-size: 14px;
-            margin: 12px 0;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
 
+        /* Navigation */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 36px;
         }
+
+        .nav-card {
+            background: white;
+            border-radius: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -8px rgba(239, 68, 68, 0.2);
+            border-color: #fca5a5;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 18px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .nav-card:nth-child(1) .nav-button { color: #3b82f6; }
+        .nav-card:nth-child(2) .nav-button { color: #10b981; }
+        .nav-card:nth-child(3) .nav-button { color: #f59e0b; }
+        .nav-card:nth-child(4) .nav-button { color: #8b5cf6; }
+
+        /* Radio Group */
+        .radio-group {
+            background: #f8fafc;
+            padding: 18px 24px;
+            border-radius: 28px;
+            margin: 20px 0;
+            display: flex;
+            gap: 32px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        input[type="radio"]:checked {
+            border-color: #ef4444;
+            background-color: #ef4444;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 8px 0 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
         button {
             width: 100%;
             padding: 14px;
-            font-size: 18px;
-            background: #0066cc;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 40px;
             cursor: pointer;
+            transition: all 0.2s;
         }
+
         button:hover {
-            background: #0055aa;
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px -5px #3b82f6;
         }
-        #result {
-            margin-top: 30px;
+
+        .save-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            margin-top: 24px;
+        }
+
+        .save-btn:hover {
+            box-shadow: 0 8px 20px -5px #10b981;
+        }
+
+        /* Current Item Display */
+        .item-preview {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 28px;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            min-height: 100px;
-            background: #fafafa;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
         }
-        .error {
-            color: red;
-            font-weight: bold;
+
+        .preview-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
         }
-        .success {
-            color: green;
-            font-weight: bold;
+
+        .preview-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e2e8f0;
         }
-        table {
-        border-collapse: collapse; /* Collapses borders into a single line */
-        width: 100%;
+
+        .preview-table td:first-child {
+            font-weight: 700;
+            color: #1e293b;
+            width: 30%;
         }
-        th, td {
-            border: 1px solid #000000; /* Adds a border to cells */
-            padding: 1px; /* Adds space inside cells */
-            text-align: center; /* Aligns text to the left */
+
+        .note {
+            background: #fef3c7;
+            padding: 12px 16px;
             border-radius: 20px;
+            font-size: 0.8rem;
+            color: #92400e;
+            margin: 16px 0;
         }
-        .td1 {
-            border: 1px solid #ffffff; /* Adds a border to cells */
-            padding: 1px; /* Adds space inside cells */
-            text-align: center; /* Aligns text to the left */
-            border-radius: 20px;
-            background-color: aqua;
+
+        hr {
+            margin: 24px 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
         }
-        th {
-            background-color: #f2f2f2; /* Gray background for headers */
+
+        @media (max-width: 640px) {
+            body { padding: 16px; }
+            .container { padding: 24px; }
+            .radio-group { flex-direction: column; gap: 12px; }
+            .nav-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-
-    <table>
-
-            <tr>
-                <td class="td1"><a href="{{ url_for('search') }}"><button type="button" class="buttonSearch">search</button></a></td>
-                <td class="td1"><a href="{{ url_for('bill') }}"><button type="button" class="buttonSearch">Bill</button></a></td>
-                <td class="td1"><a href="{{ url_for('item') }}"><button type="button" class="buttonSearch">Add</button></a></td>
-                <td class="td1"><a href="{{ url_for('stock') }}"><button type="button" class="buttonSearch">Stock</button></a></td>
-            </tr>
-    </table>
-    <h1>EDIT ITEM</h1>
-    {% if s %}
-    <h4 style="text-align: center;">Enter the ID or NAME of the item that you want to modify</h4>
-    <form action="{{ url_for('edit') }}" method="POST">
-    <div class="radio-group">
-        <label><input type="radio" name="type" value="id" checked> By ID</label>
-        <label><input type="radio" name="type" value="name"> By Name</label>
+    <!-- Navigation -->
+    <div class="nav-grid">
+        <div class="nav-card"><a href="{{ url_for('search') }}" class="nav-button">🔍 Search</a></div>
+        <div class="nav-card"><a href="{{ url_for('bill') }}" class="nav-button">🧾 Bill</a></div>
+        <div class="nav-card"><a href="{{ url_for('item') }}" class="nav-button">➕ Add</a></div>
+        <div class="nav-card"><a href="{{ url_for('stock') }}" class="nav-button">📦 Stock</a></div>
     </div>
 
-    <input type="text" name="name" placeholder="Enter ID or Name here..." />
+    <h1>✏️ EDIT ITEM</h1>
 
-    <button type="submit" >Check</button>
-    </form>
+    {% if s %}
+        <h4 style="text-align: center; color: #475569; margin-bottom: 16px;">Enter ID or Name of the item to modify</h4>
+        <form action="{{ url_for('edit') }}" method="POST">
+            <div class="radio-group">
+                <label><input type="radio" name="type" value="id" checked> 🔢 By ID</label>
+                <label><input type="radio" name="type" value="name"> 🏷️ By Name</label>
+            </div>
+            <input type="text" name="name" placeholder="Enter ID or Name here..." required />
+            <button type="submit">🔍 Find Item</button>
+        </form>
     {% endif %}
-    {% if submitted %}
-        <h4>ITEM IS:</h4>
-        <table>
-            <tr>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>ID</p></th>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>NAME</p></th>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>CATEGORY</p></th>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>PRICE</p></th>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>QUANTITY</p></th>
-                <th style="background-color: darkgoldenrod; border-radius: 0;"><p>STATUS</p></th>
-            </tr>
-            <tr>
-                <td><p>{{result.id}}</p></td>
-                <td><p>{{result.name}}</p></td>
-                <td><p>{{result.category}}</p></td>
-                <td><p>{{result.price}}</p></td>
-                <td><p>{{result.quantity}}</p></td>
-                <td><p>{{result.status}}</p></td>
-            </tr>
-        </table>
-        <br>
-        <hr>
-        <br>
-        
-        <span>NOTE:<strong style="color: red; font-size: 13px;"> ID can modify by the Admin only</strong></span>
-        <h4>Modify the given detail of ID {{result.id}}</h4>
-        <br>
-        <br>
-        <form action="/edit/{{result.id}}" method="post">
-            
-            
-            <label for="name">Name</label>
-            <input class="editdone" type="text" id="name" name="item_name" required  value="{{result.name}}">
 
-            <!-- <label for="id">ID:</label>
-            <input class="editdone" type="number" id="id" name="item_id" required  value="{{result.id}}"> -->
+    {% if submitted %}
+        <div class="item-preview">
+            <h4 style="margin-bottom: 12px; color: #1e293b;">📋 Current Item Details</h4>
+            <table class="preview-table">
+                <tr><td>ID</td><td><strong>{{result.id}}</strong></td></tr>
+                <tr><td>NAME</td><td><strong style="text-transform: uppercase;">{{result.name}}</strong></td></tr>
+                <tr><td>CATEGORY</td><td>{{result.category}}</td></tr>
+                <tr><td>PRICE</td><td>₹ {{result.price}}</td></tr>
+                <tr><td>QUANTITY</td><td>{{result.quantity}} units</td></tr>
+                <tr><td>STATUS</td><td>{{result.status}}</td></tr>
+            </table>
+        </div>
+
+        <div class="note">
+            ⚠️ <strong>Note:</strong> ID can only be modified by the Admin.
+        </div>
+
+        <hr>
+
+        <h4 style="margin-bottom: 20px;">🔄 Modify details for ID <span style="color: #ef4444;">{{result.id}}</span></h4>
+
+        <form action="/edit/{{result.id}}" method="post">
+            <label for="name">Item Name</label>
+            <input type="text" id="name" name="item_name" required value="{{result.name}}">
 
             <label for="category">Category</label>
-            <select class="editdone" id="category" name="item_category" >
+            <select id="category" name="item_category">
                 <option value="{{result.category}}">{{result.category}}</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Stationery">Stationery</option>
@@ -175,37 +278,35 @@
             </select>
 
             <label for="price">Price (₹) *</label>
-            <input class="editdone" type="number" id="price" step="0.01" min="0" value="{{result.price}}" required name="item_price">
-            <br>
-            <label for="quantity">Quantity / Stock *</label>
-            <input class="editdone" type="number" id="quantity" min="0" value="{{result.quantity}}" required name="item_quantity">
+            <input type="number" id="price" step="0.01" min="0" value="{{result.price}}" required name="item_price">
 
+            <label for="quantity">Quantity / Stock *</label>
+            <input type="number" id="quantity" min="0" value="{{result.quantity}}" required name="item_quantity">
 
             <label for="status">Status</label>
-            <select class="editdone" id="status" name="item_status">
+            <select id="status" name="item_status">
                 <option value="{{result.status}}">{{result.status}}</option>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
                 <option value="discontinued">Discontinued</option>
             </select>
 
-            <br>
-            <br>
-
-            <button type="submit" style="background-color: rgb(61, 196, 61);" >DONE</button>
+            <button type="submit" class="save-btn">✅ Save Changes</button>
         </form>
     {% endif %}
-    
 </div>
 
+{% if done %}
+<script>
+    alert("✅ Your changes have been committed successfully!");
+</script>
+{% endif %}
 
-    {% if done %}
-    <script>
-    alert("Your changes are commited!!");
-    </script>
-    {% endif %}
-
-
+{% if NotDone %}
+<script>
+    alert("item Not found!!");
+</script>
+{% endif %}
 
 </body>
 </html>

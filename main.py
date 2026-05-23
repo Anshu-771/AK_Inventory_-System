@@ -135,7 +135,10 @@ def edit():
             res = ITEM.query.filter(ITEM.id==value).first()
         else:
             res = ITEM.query.filter(ITEM.name==value).first()
-        return flask.render_template('edit.html', result=res , submitted =True , s=False)
+        if res != None:
+            return flask.render_template('edit.html', result=res , submitted =True , s=False)
+        else:
+            return flask.render_template('edit.html',s=True,NotDone = True)
     return flask.render_template('edit.html',s=True)
 
 @app.route('/edit/<string:id>', methods=['GET','POST'])

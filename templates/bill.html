@@ -3,154 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing</title>
+    <title>AK Inventory System</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(0px);
+            padding: 32px;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        h1, h2 {
+
+        h1 {
             text-align: center;
-            color: #333;
+            color: #1e293b;
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #1e293b, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .nav-table {
-            width: 100%;
-            margin-bottom: 20px;
+
+        /* Modern Navigation Grid */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
         }
-        .nav-table td {
-            padding: 10px;
-            text-align: center;
+
+        .nav-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
         }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
         .nav-button {
+            display: block;
             width: 100%;
-            padding: 10px;
-            background: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 14px 20px;
+            background: transparent;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
             text-decoration: none;
-            display: block;
-        }
-        .nav-button:hover {
-            background: #0055aa;
-        }
-        .radio-group {
-            margin: 20px 0;
-            text-align: left;
-        }
-        input[type="radio"] {
-            margin-right: 10px;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            margin: 15px 0;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        .add-button {
-            width: 20%;
-            padding: 12px;
-            font-size: 18px;
-            background: rgb(175, 244, 105);
-            color: #000000;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .add-button:hover {
-            background: rgb(150, 220, 90);
-        }
-        #stock-table, #bill-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        #stock-table th, #stock-table td, #bill-table th, #bill-table td {
-            border: 1px solid #000000;
-            padding: 8px;
             text-align: center;
-        }
-        #stock-table th, #bill-table th {
-            background-color: #f2f2f2;
-        }
-        .delete-button {
-            background-color: rgb(240, 69, 69);
-            color: #000000;
+            border-radius: 18px;
+            transition: all 0.2s;
+            cursor: pointer;
             border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .nav-card:nth-child(1) .nav-button { color: #3b82f6; }
+        .nav-card:nth-child(2) .nav-button { color: #10b981; }
+        .nav-card:nth-child(3) .nav-button { color: #f59e0b; }
+        .nav-card:nth-child(4) .nav-button { color: #ef4444; }
+        .nav-card:nth-child(5) .nav-button { color: #8b5cf6; }
+
+        .nav-button:hover {
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        /* Form Elements */
+        .radio-group {
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 32px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #334155;
             cursor: pointer;
         }
-        .delete-button:hover {
-            background-color: rgb(200, 50, 50);
+
+        input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            margin: 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .clear-button {
+
+        input[type="radio"]:checked {
+            border-color: #3b82f6;
+            background-color: #3b82f6;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
             width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            background: #ff4444;
+            padding: 14px 18px;
+            font-size: 1rem;
+            margin: 12px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: all 0.2s;
+            background: white;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Buttons */
+        .add-button {
+            width: auto;
+            min-width: 120px;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 40px;
             cursor: pointer;
-            margin: 10px 0;
+            transition: all 0.2s;
+            margin-top: 8px;
         }
+
+        .add-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+        }
+
+        .clear-button {
+            width: auto;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
         .clear-button:hover {
-            background: #cc0000;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);
         }
-        .error {
-            color: red;
-            font-weight: bold;
-            text-align: center;
-            margin: 10px 0;
+
+        .delete-button {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: all 0.2s;
         }
-        .success {
-            color: green;
-            font-weight: bold;
-            text-align: center;
-            margin: 10px 0;
+
+        .delete-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
         }
-        .customer-form {
-            margin-top: 20px;
-        }
-        .customer-form label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        .customer-form input {
+
+        /* Tables Modern */
+        #stock-table,
+        #bill-table {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 24px 0;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        #stock-table th,
+        #bill-table th {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 16px 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        #stock-table td,
+        #bill-table td {
+            border: none;
+            padding: 14px 12px;
+            text-align: center;
+            background: white;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        #stock-table tr:hover td,
+        #bill-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* Alert Messages */
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 16px 0;
+            font-weight: 500;
+            border-left: 4px solid #dc2626;
+        }
+
+        .success {
+            background: #f0fdf4;
+            color: #16a34a;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 16px 0;
+            font-weight: 500;
+            border-left: 4px solid #22c55e;
+        }
+
+        /* Total Row */
+        .total-row {
+            background: linear-gradient(135deg, #fef9c3, #fde047);
+            font-weight: 800;
+        }
+
+        hr {
+            margin: 24px 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .radio-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .add-button,
+            .clear-button {
+                width: 100%;
+            }
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <table class="nav-table">
-            <tr>
-                <td><a href="{{ url_for('search') }}" class="nav-button">Search</a></td>
-                <td><a href="{{ url_for('item') }}" class="nav-button">Add Item</a></td>
-                <td><a href="{{ url_for('edit') }}" class="nav-button">Edit</a></td>
-                <td><a href="{{ url_for('stock') }}" class="nav-button">Stock</a></td>
-            </tr>
-        </table>
+        <!-- Modern Navigation Cards -->
+        <div class="nav-grid">
+            <div class="nav-card"><a href="{{ url_for('search') }}" class="nav-button">🔍 Search</a></div>
+            <div class="nav-card"><a href="{{ url_for('item') }}" class="nav-button">➕ Add Item</a></div>
+            <div class="nav-card"><a href="{{ url_for('edit') }}" class="nav-button">✏️ Edit</a></div>
+            <div class="nav-card"><a href="{{ url_for('stock') }}" class="nav-button">📦 Stock</a></div>
+        </div>
 
-        <h1>BILLING</h1>
+        <h1>💰 BILLING</h1>
 
         {% if error %}
             <div class="error">{{ error }}</div>
@@ -159,66 +321,65 @@
             <div class="success">{{ success }}</div>
         {% endif %}
 
-
-        <h4>Provide item details to add for billing</h4>
+        <h4 style="color: #475569; margin-bottom: 12px;">✨ Add items to invoice</h4>
         <form action="{{ url_for('bill') }}" method="POST">
             <div class="radio-group">
-                <label><input type="radio" name="type" value="id" checked> By ID</label>
-                <label><input type="radio" name="type" value="name"> By Name</label>
-                <input type="text" name="name" placeholder="Enter ID or Name here..." required />
-                <label for="quantity">Quantity to Buy *</label>
-                <input type="number" id="quantity" min="1" value="1" required name="item_quantity">
-                <button type="submit" class="add-button">ADD</button>
+                <label><input type="radio" name="type" value="id" checked> 🔢 By ID</label>
+                <label><input type="radio" name="type" value="name"> 🏷️ By Name</label>
             </div>
+            <input type="text" name="name" placeholder="Enter ID or Name here..." required style="margin-top: 0;" />
+            <label for="quantity" style="font-weight: 600; color: #334155; margin-top: 8px;">📦 Quantity to Buy *</label>
+            <input type="number" id="quantity" min="1" value="1" required name="item_quantity">
+            <button type="submit" class="add-button">➕ ADD TO CART</button>
         </form>
 
         <hr>
 
-        <h2>Current Bill Items</h2>
+        <h2 style="font-size: 1.5rem; color: #1e293b; margin: 24px 0 16px;">🛒 Current Bill Items</h2>
         {% if cart %}
-            <form action="{{ url_for('clear_cart') }}" method="POST" style="text-align: right;">
-                <button type="submit" class="clear-button" onclick="return confirm('Clear entire cart?')">Clear All</button>
-            </form>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                <form action="{{ url_for('clear_cart') }}" method="POST">
+                    <button type="submit" class="clear-button" onclick="return confirm('Clear entire cart?')">🗑️ Clear All</button>
+                </form>
+            </div>
             <table id="bill-table">
+                <thead>
                 <tr>
-                    <th>S.No</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Delete</th>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Price (₹)</th>
+                    <th>Qty</th>
+                    <th>Total (₹)</th>
+                    <th>Action</th>
                 </tr>
+                </thead>
+                <tbody>
                 {% for item in cart %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td style="text-transform: uppercase;"><strong>{{ item.name }}</strong></td>
+                    <td style="text-transform: uppercase; font-weight: 600;">{{ item.name }}</td>
                     <td>{{ item.price }}</td>
                     <td>{{ item.qty }}</td>
-                    <td>{{ item.price * item.qty }}</td>
+                    <td><strong>{{ item.price * item.qty }}</strong></td>
                     <td>
                         <form action="{{ url_for('delete_item', index=loop.index0) }}" method="POST" style="display: inline;">
-                            <button type="submit" class="delete-button" onclick="return confirm('Remove this item?')">Delete</button>
+                            <button type="submit" class="delete-button" onclick="return confirm('Remove this item?')">✖ Remove</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
-                <tr>
-                    <td colspan="4" style="background-color: #ebdc7a;">TOTAL AMOUNT : </td>
-                    <td><strong>{{total}}</strong></td>
-                    <td style="background-color: #ebdc7a;"></td>
+                <tr style="background: linear-gradient(135deg, #fef9c3, #fde047); font-weight: 800;">
+                    <td colspan="4" style="text-align: right; font-size: 1.1rem;">TOTAL AMOUNT : </td>
+                    <td style="font-size: 1.3rem;">₹ {{total}}</td>
+                    <td></td>
                 </tr>
+                </tbody>
             </table>
+        {% else %}
+            <div style="text-align: center; padding: 48px 20px; background: #f8fafc; border-radius: 28px; color: #64748b;">
+                🧺 Cart is empty. Add items to generate bill.
+            </div>
         {% endif %}
-            
-
-        <!-- <div class="customer-form">
-            <h3>Customer Details</h3>
-            <label for="customer_name">Name:</label>
-            <input type="text" id="customer_name" placeholder="Enter customer name">
-            <label for="customer_phone">Phone No.:</label>
-            <input type="text" id="customer_phone" placeholder="Enter phone number">
-            You can extend this with a "Generate Bill" button later, e.g., POST to a new /bill/generate route
-        </div> -->
     </div>
 </body>
 </html>

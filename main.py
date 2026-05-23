@@ -2,18 +2,28 @@ from flask import Flask ,session , render_template , request ,redirect , url_for
 import flask
 from flask_sqlalchemy import SQLAlchemy
 
-
-
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Set a secret key for sessions (change this to a random string in production)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/inventory'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost/stock'
+#-------------------
+import os
+# 1. Get the absolute path of the directory where main.py is located
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+# 2. Point cleanly to your database file inside that exact directory
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'inventory.db')}"
+#-------------------
+
+
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/inventory'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost/stock'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventory.db'
 
 db = SQLAlchemy(app)
 
 class ITEM(db.Model):
+    __tablename__ = 'item'  # Explicitly tells SQLAlchemy to look for the lowercase table
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     category = db.Column(db.String(25), nullable=False)

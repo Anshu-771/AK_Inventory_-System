@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK Inventory - Dashboard</title>
+    <title>IMS - Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -17,7 +17,7 @@
             justify-content: center;
         }
         .dashboard {
-            max-width: 900px;
+            max-width: auto;
             width: 100%;
             background: rgba(255,255,255,0.96);
             backdrop-filter: blur(4px);
@@ -92,7 +92,7 @@
 </head>
 <body>
 <div class="dashboard">
-    <h1>⚡ AK INVENTORY SYSTEM</h1>
+    <h1>⚡INVENTORY MANAGEMENT SYSTEM</h1>
     <div class="sub">Manage items, track stock, and generate bills seamlessly</div>
     <div class="button-grid">
         <div class="action-card"><a href="{{ url_for('search') }}" class="dashboard-btn btn-search"><span>🔍</span> Search Item</a></div>
